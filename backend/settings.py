@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "corsheaders",
+    "rest_framework_simplejwt.token_blacklist", #enable blacklist
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -47,7 +51,32 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
 ]
+
+
+
+# CORS - for dev set the origin(s) you allow
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # vite dev
+]
+
+
+
+# Simple JWT config: short access, longer refresh, rotate + blacklist
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+}
+
+# Cookies for refresh token
+REFRESH_COOKIE_NAME = "refresh_token"  # name we will use when setting cookie
+
 
 ROOT_URLCONF = "backend.urls"
 
