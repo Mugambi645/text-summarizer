@@ -1,3 +1,4 @@
 venv
 summarizer/__pycache__
 text/migrations
+text/__pycache__
