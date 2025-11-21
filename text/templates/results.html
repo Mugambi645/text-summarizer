@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Results - Text Summarizer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="summary-card p-5">
+            <div class="text-center mb-4">
+                <h1 class="display-5 mb-3">✅ Summary Generated</h1>
+                <p class="lead">Here's the concise version of your text</p>
+            </div>
+
+            <div class="row">
+                <!-- Original Text -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">📄 Original Text</h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="max-height: 400px; overflow-y: auto;">
+                                <p class="card-text">{{ original_text|truncatewords:100 }}</p>
+                            </div>
+                            <small class="text-muted">Length: {{ original_text|wordcount }} words</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-success">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">✨ AI Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="max-height: 400px; overflow-y: auto;">
+                                <p class="card-text">{{ summary }}</p>
+                            </div>
+                            <small class="text-muted">Length: {{ summary|wordcount }} words</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="row text-center mt-3">
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded">
+                        <h4>{{ original_text|wordcount }}</h4>
+                        <small class="text-muted">Original Words</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded">
+                        <h4>{{ summary|wordcount }}</h4>
+                        <small class="text-muted">Summary Words</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded">
+                        <h4>{{ reduction_ratio }}%</h4>
+                        <small class="text-muted">Reduction</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-center gap-3 mt-5">
+                <a href="{% url 'text:home' %}" class="btn btn-outline-primary">
+                    ↶ Summarize Another Text
+                </a>
+                <button onclick="copySummary()" class="btn btn-outline-success">
+                    📋 Copy Summary
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copySummary() {
+        const summaryText = `{{ summary }}`;
+        navigator.clipboard.writeText(summaryText).then(() => {
+            // Show temporary feedback
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✓ Copied!';
+            btn.classList.remove('btn-outline-success');
+            btn.classList.add('btn-success');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-outline-success');
+            }, 2000);
+        });
+    }
+</script>
+{% endblock %}
