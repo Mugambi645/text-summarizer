@@ -53,6 +53,61 @@ The Text Summarizer project is a Django-based web application that leverages AI 
 - Payload: `{ "text": "Your text here" }`
 - Response: `{ "summary": "Summarized text" }`
 
+#### Example usage
+
+- Using Curl
+```
+curl -X POST "http://localhost:8000/api/v1/summarize/" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Your long text here...",
+    "max_length": 150,
+    "min_length": 40
+  }'
+  ```
+- Using javascript(fetch Api)
+```
+const summarizeText = async (text) => {
+  const response = await fetch('/api/v1/summarize/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text: text,
+      max_length: 150,
+      min_length: 40
+    })
+  });
+  
+  return await response.json();
+};
+
+// Usage
+summarizeText("Your long article text...")
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+- Using Python requests library
+```
+import requests
+
+api_url = "http://localhost:8000/api/v1/summarize/"
+data = {
+    "text": "Your long text here...",
+    "max_length": 150,
+    "min_length": 40
+}
+
+response = requests.post(api_url, json=data)
+print(response.json())
+```
+
+- Check Api status
+```
+curl http://localhost:8000/api/v1/status/
+```
 ## Project Structure
 - `summarizer/`: Contains Django project settings and configurations.
 - `text/`: Main app for text summarization, including views, templates, and services.

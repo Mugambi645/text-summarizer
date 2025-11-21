@@ -51,3 +51,8 @@ def api_summarize(request):
         return JsonResponse({'summary': summary})
     
     return JsonResponse({'error': 'Only POST requests allowed'}, status=405)
+
+
+
+
+

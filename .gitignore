@@ -3,3 +3,5 @@ summarizer/__pycache__
 text/migrations
 text/__pycache__
 my_summarizer_model
+text/services/__pycache__
+text/api/__pycache__
