@@ -2,3 +2,4 @@ venv
 summarizer/__pycache__
 text/migrations
 text/__pycache__
+my_summarizer_model
